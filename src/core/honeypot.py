@@ -2,8 +2,22 @@ import socket
 import threading
 import json
 from datetime import datetime
+import os
 import sys
 from src.utils.logger import HoneypotLogger
+import sys
+from joblib import load
+
+# Compatible loading (works for both .py and .exe)
+if getattr(sys, 'frozen', False):
+    base = sys._MEIPASS
+else:
+    base = os.path.abspath(".")
+
+model_path = os.path.join(base, 'src', 'ml', 'ml_model.joblib')
+model = load(model_path)
+
+
 
 class Honeypot:
     def __init__(self, host='0.0.0.0', ports=[21, 22, 80, 443]):
